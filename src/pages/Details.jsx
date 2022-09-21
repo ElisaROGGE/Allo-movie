@@ -26,9 +26,9 @@ const Details = ({}) => {
             <div className='detail'>
             <h1 className="text-7xl font-bold underline text-amber-400">{movie.title}</h1>
                 <img src={API_IMG+movie.poster_path} />
-                <div className="genre">
+                {/* <div className="genre">
                     [{movie.genres}]
-                </div>
+                </div> */}
                 <p>Sorti au cinéma le {movie.release_date}</p>
                 <p>{movie.overview}</p>
                 <div className='rate'>
