@@ -16,16 +16,11 @@ const Home = () => {
     })
   })
   return (
-    <div>
-      <div className="header bg-amber-400">
-        <h1 className='text-3xl'>Allo Movie</h1>
-        <Navigation />
-      </div>
-      <div className="movies text-center mt-6">
-        {/* Une boucle qui affichera les films dans le tableau. */}
-      {movies.map((movieReq)=><MovieBox key={movieReq.id} {...movieReq}/>)}
-      </div>
-    </div>
+        <><Navigation />
+        <div className="movies text-center mt-6">
+      {/* Une boucle qui affichera les films dans le tableau. */}
+      {movies.map((movieReq) => <MovieBox key={movieReq.id} {...movieReq}/>)}
+    </div></>
   );
 };
 
