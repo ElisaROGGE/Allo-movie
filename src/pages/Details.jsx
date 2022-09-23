@@ -28,15 +28,15 @@ const Details = ({}) => {
         }
         localStorage.setItem('movies',JSON.stringify(oldData));
         console.log(oldData);
-        handleFavouritesState();
+        // handleFavouritesState();
     }
-    function handleFavouritesState(){
-        let oldData = JSON.parse(localStorage.getItem('movies-app') || "[]");
-        let temp = oldData.map((movie)=>movie.id);
-        setFavourite({
-            favourites: [...temp]
-        });
-    }
+    // function handleFavouritesState(){
+    //     let oldData = JSON.parse(localStorage.getItem('movies-app') || "[]");
+    //     let temp = oldData.map((movie)=>movie.id);
+    //     setFavourite({
+    //         favourites: [...temp]
+    //     });
+    // }
     return (
         <div>
             <Navigation />
