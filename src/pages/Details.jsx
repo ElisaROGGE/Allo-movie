@@ -8,19 +8,26 @@ const Details = ({}) => {
     const param= useParams();
     const API_URL=`https://api.themoviedb.org/3/movie/${param.id}?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr`
     const [movie, setMovie] = useState({});
-    const [favourites, setFavourite] = useState(['']);
+    const [favourites, setFavourite] = useState([]);
     useEffect(() => {
         fetch(API_URL)
         .then(res=>res.json())
         .then(data=>{
-            console.log(data);
             setMovie(data)
         })
     }, [])
+    useEffect(() => {
+        const movies = JSON.parse(localStorage.getItem('movies'));
+        if(movies){
+            setFavourite(movies);
+        }
+    }, []);
+
+    
     function handleFavourites(movie){
         /* Obtenir les données de localStorage et les analyser dans un tableau. */
-        let oldData = JSON.parse(localStorage.getItem('movies-app') || "[]");
-        if(favourites.includes(movie.id)){
+        let oldData = JSON.parse(localStorage.getItem('movies') || "[]");
+        if(favourites.findIndex(m=>m.id==movie.id)>-1){
             /* Filtrer le tableau oldData et renvoyer un nouveau tableau avec le movie.id supprimé. */
             oldData = oldData.filter((m)=>m.id!=movie.id);
         }else{
@@ -28,6 +35,13 @@ const Details = ({}) => {
         }
         localStorage.setItem('movies',JSON.stringify(oldData));
         console.log(oldData);
+        setFavourite(oldData)
+        // useEffect(() => {
+        //     const favourites = JSON.parse(localStorage.getItem('movies'));
+        //     if(favourites){
+        //         setItems(favourites);
+        //     }
+        // }, []);
         // handleFavouritesState();
     }
     // function handleFavouritesState(){
@@ -66,7 +80,7 @@ const Details = ({}) => {
                     </div>
                     <div className="fav">
                         <div className="w-fit-content my-7 bg-red-300 rounded-md px-3 py-3 transition delay-200 hover:scale-125"> 
-                            <button type='button' onClick={()=>handleFavourites(movie)}>{favourites.includes(movie.id)?"Supprimer des favoris":"Ajouter aux favoris"}</button>
+                            <button type='button' onClick={()=>handleFavourites(movie)}>{favourites.findIndex(m=>m.id==movie.id)>-1?"Supprimer des favoris":"Ajouter aux favoris"}</button>
                         </div>
                     </div>
                     
