@@ -1,6 +1,5 @@
-import { data } from 'autoprefixer';
-import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import React from 'react';
+import { NavLink} from 'react-router-dom';
 
 
 const Navigation = () => {

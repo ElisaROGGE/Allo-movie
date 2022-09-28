@@ -4,76 +4,78 @@ import Navigation from '../components/Navigation';
 import ReactPaginate from 'react-paginate';
 
 const API_SEARCH="https://api.themoviedb.org/3/search/movie?api_key=d3a32c5601ee179958911ddfe2fedfb2&query";
-const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&page=1"
+
+// "https://api.themoviedb.org/3/movie/popular?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&page=1"
 const Home = () => {
     const [movies, setMovies]=useState([]);
     const [query, setQuery] = useState('');
-    const [pageCount, setPageCount] = useState(0)
+    const [dataPage, setDataPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
-  //   useEffect(() => {
-  //  /* Fetch() est une méthode utilisée pour récupérer les ressources d'un serveur. */
-  //   fetch(API_URL)
-  //   /* Une fonction de rappel qui est appelée lorsque la promesse est résolue. */
-  //   .then((res)=>res.json())
-  //   .then(data=>{
-  //     console.log(data);
-  //     /* Définition de l'état du tableau des films sur le tableau data.results. */
-  //     setMovies(data.results);
-  //   })
-  // }, [])
   useEffect(() =>{
     const getMovies = async() => {
-      const res = await fetch(API_URL);
+      // Je fais une condition pour prendre l'url de recherche quand la recherche de mon input est efféctuée
+      if(query !== ''){
+       const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&query=${query}&page=${dataPage}`);
         const data = await res.json();
-        const total = res.headers.get('total_results');
-        console.log(data);
-        console.log(total)
         setMovies(data.results);
+        setTotalPages(data.total_pages);
+        // Ou sinon prendre les pages populaires par défaut
+      }else{
+        const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&query=${query}&page=${dataPage}`);
+        const data = await res.json();
+        setMovies(data.results);
+        setTotalPages(data.total_pages);
+      }  
     };
     getMovies();
-  }, [])
+  }, [dataPage])
 
     // Barre de recherche
-  const searchMovies = async(e)=>{
-    /* Il empêche l'action par défaut de l'événement de se produire. */
-    e.preventDefault();
-    try{
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&query=${query}`;
-        const res= await fetch(url);
-        const data = await res.json();
-        console.log(data);
-        setMovies(data.results);
-    }catch(e){
-        console.log(e);
+    const searchMovies = async(e)=>{
+      /* Il empêche l'action par défaut de l'événement de se produire. */
+      e.preventDefault();
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&query=${query}&page=${dataPage}`;
+      try{
+          const res= await fetch(url);
+          const data = await res.json();
+          console.log(data);
+          setMovies(data.results);
+          setTotalPages(data.total_pages);
+      }catch(e){
+          console.log(e);
+      }
     }
-  }
+  
+    // Je récupère la valeur écrite dans l'input
     const changeHandler=(e)=>{
       setQuery(e.target.value);
     }
+
     // Pagination
 
-    const fetchMovies = async(currentPage)=>{
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&page=${currentPage}`
-      );
-      const data = await res.json();
-      return data;
-    }
     const handlePageClick = async (data) =>{
-      console.log(data.selected);
-
-      let currentPage = data.selected + 1;
-      const moviesFormServer = await fetchMovies(currentPage);
-      setMovies(moviesFormServer);
+      setDataPage(data.selected + 1)
     };
     
 
   return (
         <><Navigation />
-        <form action="" onSubmit={searchMovies} autoComplete="off">
-            <input type="search" placeholder="Rechercher un film" aria-label="search" name="query" value={query} onChange={changeHandler}/>
-            <button type='submit'>Rechercher</button>
-        </form>
+        <div className="flex justify-center mt-6">
+          <form action="" onSubmit={searchMovies} autoComplete="off">
+            <div className="flex">
+              <div className='border-2 rounded border-amber-400 pt-3'>
+              <input classname="search-input" type="search" placeholder="Rechercher un film" aria-label="search" name="query" value={query} onChange={changeHandler}/>
+            </div>
+            <div className="bg-amber-400 w-fit-content rounded p-3 -ml-2">
+              <button classname="search-button" type='submit'>Rechercher</button>
+            </div>
+            </div>
+            
+            
+          </form>
+        </div>
+        
         
           <div>
             {movies.length > 0 ?(
@@ -86,7 +88,7 @@ const Home = () => {
                 previousLabel={'Précédent'}
                 nextLabel={'Suivant'}
                 breakLabel={'...'}
-                pageCount={25}
+                pageCount={totalPages>500?500:totalPages}
                 marginPagesDisplayed={4}
                 pageRangeDisplayed={3}
                 onPageChange={handlePageClick}

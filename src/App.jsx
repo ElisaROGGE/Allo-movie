@@ -9,7 +9,7 @@ function App() {
   return(
     <BrowserRouter>
       <Routes>
-       <Route path="/" element={<Home/>} />
+       <Route exact path="/" element={<Home/>} />
        <Route path="/favoris" element={<Favoris/>} />
        <Route path="/details/:id" element={<Details/>} />
          {/* path="*" fonctionne si jamais l'url ne correspond à rien de déclaré au dessus */}
