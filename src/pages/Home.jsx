@@ -14,7 +14,7 @@ const Home = () => {
 
   useEffect(() =>{
     const getMovies = async() => {
-      // Je fais une condition pour prendre l'url de recherche quand la recherche de mon input est efféctuée
+      // Je fais une condition pour prendre l'url de recherche quand la recherche de mon input est effectuée
       if(query !== ''){
        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=d3a32c5601ee179958911ddfe2fedfb2&language=fr&query=${query}&page=${dataPage}`);
         const data = await res.json();
@@ -58,28 +58,25 @@ const Home = () => {
       setDataPage(data.selected + 1)
     };
     
-
   return (
         <><Navigation />
         <div className="flex justify-center mt-6">
           <form action="" onSubmit={searchMovies} autoComplete="off">
             <div className="flex">
-              <div className='border-2 rounded border-amber-400 pt-3'>
-              <input classname="search-input" type="search" placeholder="Rechercher un film" aria-label="search" name="query" value={query} onChange={changeHandler}/>
-            </div>
+              <div>
+                <input className="shadow appearance-none border-2 rounded border-amber-400 pt-3 pb-3 leading-tight focus:outline-none focus:shadow-outline" type="search" placeholder="Rechercher un film" aria-label="search" name="query" value={query} onChange={changeHandler}/>
+              </div>
             <div className="bg-amber-400 w-fit-content rounded p-3 -ml-2">
-              <button classname="search-button" type='submit'>Rechercher</button>
+              <button className="search-button" type='submit'>Rechercher</button>
             </div>
             </div>
-            
-            
+      
           </form>
         </div>
-        
-        
+
           <div>
             {movies.length > 0 ?(
-              <><div className="movies text-center mt-6">
+              <><div className="movies text-center mt-6 tablet-1:columns-2 tablet:columns-4 s:columns-1">
             {/* Une boucle qui affichera les films dans le tableau. */}
             {movies.map((movieReq) => <MovieBox key={movieReq.id} {...movieReq} />)}
 

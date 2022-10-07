@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.button{
-    width: 50%;
-    margin-left: 25%;
-}
-.detail-image{
-    content: url();
-}
 .nav-active{
     text-decoration: underline;
 }

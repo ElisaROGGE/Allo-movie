@@ -23,7 +23,6 @@ const Details = ({}) => {
         }
     }, []);
 
-    
     function handleFavourites(movie){
         /* Obtenir les données de localStorage et les analyser dans un tableau. */
         let oldData = JSON.parse(localStorage.getItem('movies') || "[]");
