@@ -21,14 +21,7 @@ const Favoris = ({}) => {
         localStorage.setItem('movies',JSON.stringify(oldData));
         console.log(oldData);
         setMovies(oldData);
-    }
-    // const divRef = useRef()
-    // let oldData = JSON.parse(localStorage.getItem('movies'|| "[]"))
-    // const currentFavItems = document.getElementsByClassName('empty-fav');
-    // if(oldData?.length == 0){
-    //     currentFavItems.style.display = 'block';
-    // }
-    
+    }  
     
     return(
     <>
@@ -57,7 +50,6 @@ const Favoris = ({}) => {
                         )
                         
                     }
-                    {/* <div className="empty-fav text-xl text-center" style={{display:'none'}}>Vous n'avez pas encore de films dans vos favoris</div> */}
                 </div>
             </div>
         </div>

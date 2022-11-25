@@ -76,7 +76,7 @@ const Home = () => {
 
           <div>
             {movies.length > 0 ?(
-              <><div className="movies text-center mt-6 tablet-1:columns-2 tablet:columns-4 s:columns-1">
+              <><div className="movies text-center mt-6 tablet-1:columns-2 tablet:columns-5 s:columns-1">
             {/* Une boucle qui affichera les films dans le tableau. */}
             {movies.map((movieReq) => <MovieBox key={movieReq.id} {...movieReq} />)}
 
